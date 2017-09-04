@@ -1,3 +1,11 @@
+import sqlite3
+
+connection = sqlite3.connect("C:/Users/Kristina/Desktop/1.db")
+
+Zodynas = connection.execute("SELECT * FROM Zodynas")
+connection.close()
+
+
 polish_lithuanian_dictionary = {"ja": "as", "ty": "tu", "my": "mes", "oni": "jie", "one": "jos", "ona": "ji", "on": "jis",
                 "chlodnik": "saltibarsciai", "kot": "katinas"}
 
