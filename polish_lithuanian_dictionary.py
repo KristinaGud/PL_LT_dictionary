@@ -10,8 +10,9 @@ def set_translation(polish, lithuanian):
 
 
 def get_translation(translated_to_polish):
-    translated_to_polish = connection.execute("SELECT Lithuanian FROM Zodynas WHERE id = 1")
-    print translated_to_polish.fetchone()[0]
+    SQL = "SELECT Lithuanian FROM Zodynas WHERE Polish = \"" + translated_to_polish + "\""
+    translated_to_polish = connection.execute(SQL)
+    return translated_to_polish.fetchone()[0]
 
 
 def get_translated_words():
