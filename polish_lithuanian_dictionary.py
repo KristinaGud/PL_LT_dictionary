@@ -28,17 +28,12 @@ def get_translated_words():
 def print_words_in_dictionary():
     print "Polish words we can translate:", get_translated_words()
 
-
-"""def add_translation():
-    polish = str(raw_input("Type word in Polish\n"))
-    lithuanian = str(raw_input("Give translation to Lithuanian\n"))
-    set_translation(polish, lithuanian)
-    print "updated: Polish words we can translate:", sorted(get_translated_words())"""
-
-
 def translate_to_lithuanian():
     print get_translation(str(raw_input('Type word you want to translate to Lithuanian\n')))
 
+def play():
+    random_polish = connection.execute("SELECT Polish FROM Zodynas order by random() limit 1;")
+    print "how in Lithuanian is " + "'" + random_polish.fetchone()[0] + "'?\n"
 
 def perform_action(action_number):
     if action_number > 4:
@@ -46,19 +41,19 @@ def perform_action(action_number):
     elif action_number == 1:
         print_words_in_dictionary()
     elif action_number == 2:
-        add_translation()
+        play()
     elif action_number == 3:
         translate_to_lithuanian()
     if action_number != 4:
         perform_action(int(raw_input(
-            "Do you wanna to continue? Enter 1 to see all words, 2 - add translation, 3 - translate, 4 - exit\n")))
+            "Do you wanna to continue? Enter 1 to see all words, 2 - get a quiz, 3 - translate, 4 - exit\n")))
     else:
         print "See you soon! Iki!"
 
 
 perform_action(int(raw_input(
     "If you want to see all words in Polish dictionary - enter 1,\n" +
-    "if you want to add translation to this dictionary - enter number 2,\n" +
+    "if you want to play a game - enter number 2,\n" +
     "if you want to translate a word into Lithuanian - enter 3\n")))
 
 connection.close()
