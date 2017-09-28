@@ -31,19 +31,20 @@ def print_words_in_dictionary():
 def translate_to_lithuanian():
     print get_translation(str(raw_input('Type word you want to translate to Lithuanian\n')))
 
-def play_translation():
-    random_lithuanian = connection.execute("SELECT Lithuanian FROM Zodynas WHERE Polish\"" + random_polish + "\"")
-    random_lithuanian.fetchone()[0]
-    if play_translation() == random_lithuanian:
+
+def play_translation(answer, random_polish):
+    random_lithuanian = connection.execute("SELECT Lithuanian FROM Zodynas WHERE Polish\"" + random_polish + "\"").fetchone()[0]
+    if answer == random_lithuanian:
         print "saunuolis"
     else:
         print "bandyk dar karta"
-    return play()
+    play()
 
 def play():
-    random_polish = connection.execute("SELECT Polish FROM Zodynas order by random() limit 1;")
-    print "how in Lithuanian is " + "'" + random_polish.fetchone()[0] + "'?\n"
-    print play_translation(str(raw_input('Enter translation\n')))
+    random_polish = connection.execute("SELECT Polish FROM Zodynas order by random() limit 1;").fetchone()[0]
+    print "how in Lithuanian is " + "'" + random_polish + "'?\n"
+    answer = str(raw_input('Enter translation\n'))
+    play_translation(answer, random_polish)
 
 def perform_action(action_number):
     if action_number > 4:
