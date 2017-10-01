@@ -28,22 +28,31 @@ def get_translated_words():
 def print_words_in_dictionary():
     print "Polish words we can translate:", get_translated_words()
 
+
 def translate_to_lithuanian():
     print get_translation(str(raw_input('Type word you want to translate to Lithuanian\n')))
 
-def play_translation():
-    random_lithuanian = connection.execute("SELECT Lithuanian FROM Zodynas WHERE Polish\"" + random_polish + "\"")
-    random_lithuanian.fetchone()[0]
-    if play_translation() == random_lithuanian:
-        print "saunuolis"
+
+def play_translation(answer, random_polish):
+    random_lithuanian = connection.execute("SELECT Lithuanian FROM Zodynas WHERE Polish = \"" + random_polish + "\"").fetchone()[0]
+    if answer.lower() == random_lithuanian:
+        print "Saunuolis"
     else:
-        print "bandyk dar karta"
-    return play()
+        second_chance_answer = str(raw_input('Wrong answer. Bandyk dar karta! Enter translation:\n'))
+        if second_chance_answer.lower() == random_lithuanian:
+            print 'Saunuolis!'
+        else:
+            print 'You should work more on your Lithuanian! The right answer is "' + random_lithuanian + '"\n'
+            return perform_action(int(raw_input("Do you wanna to continue? Enter 1 to see all words, 2 - get a quiz, 3 - translate, 4 - exit\n")))
+    play()
+
 
 def play():
-    random_polish = connection.execute("SELECT Polish FROM Zodynas order by random() limit 1;")
-    print "how in Lithuanian is " + "'" + random_polish.fetchone()[0] + "'?\n"
-    print play_translation(str(raw_input('Enter translation\n')))
+    random_polish = connection.execute("SELECT Polish FROM Zodynas order by random() limit 1;").fetchone()[0]
+    print "How in Lithuanian is " + "'" + random_polish + "'?\n"
+    answer = str(raw_input('Enter translation\n'))
+    play_translation(answer, random_polish)
+
 
 def perform_action(action_number):
     if action_number > 4:
@@ -55,8 +64,7 @@ def perform_action(action_number):
     elif action_number == 3:
         translate_to_lithuanian()
     if action_number != 4:
-        perform_action(int(raw_input(
-            "Do you wanna to continue? Enter 1 to see all words, 2 - get a quiz, 3 - translate, 4 - exit\n")))
+        perform_action(int(raw_input("Do you wanna to continue? Enter 1 to see all words, 2 - get a quiz, 3 - translate, 4 - exit\n")))
     else:
         print "See you soon! Iki!"
 
